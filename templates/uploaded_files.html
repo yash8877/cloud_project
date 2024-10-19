@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="text-align: center;">Uploaded Files</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/uploaded.css') }}">
+</head>
+<body>
+    <h1>Uploaded Files</h1>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Download</th>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ file }}</td>
+            <td><button id="donwload" onclick="openModal('{{ file }}')">Download</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    &nbsp;&nbsp;<a href="/index" class="btn btn-primary" style="text-decoration: none;">Back to Upload</a>
+
+    <!-- Modal for key input -->
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h3 style="color: black;">Enter Decryption Key for <span id="file-name"></span></h3>
+            <form id="decryption-form" action="" method="POST">
+                <input type="text" name="custom_key" required placeholder="Enter your key" style="margin-top: 10px;">
+                <input type="hidden" name="filename" id="hidden-filename"><br>
+                <button type="submit" style="margin-top: 10px;">Decrypt and Download</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 <a href="/about" style="color: #00f;">Alen Infra Tech Solutions </a>. All rights reserved.</p>
+        <p>Contact us on 
+            <a href="mailto:alenshyju27@gmail.com" style="color: #00f;">Email</a>
+        </p>
+    </footer>
+
+    <script>
+        function openModal(fileName) {
+            document.getElementById("file-name").innerText = fileName;
+            document.getElementById("hidden-filename").value = fileName;
+            document.getElementById("myModal").style.display = "block";
+            document.getElementById("decryption-form").action = `/download/${fileName}`; // Set form action
+        }
+
+        function closeModal() {
+            document.getElementById("myModal").style.display = "none";
+        }
+
+        // Close the modal when the user clicks anywhere outside of the modal
+        window.onclick = function(event) {
+            const modal = document.getElementById("myModal");
+            if (event.target === modal) {
+                modal.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
