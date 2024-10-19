@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title style="text-align: center;">Uploaded Files</title>
+    <style>
+        /* Center the title text */
+        h1 {
+            text-align: center;
+        }
+    </style>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url('../static/img5.jpg'); /* Background image */
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            color: white; /* Ensures text is readable on dark backgrounds */
+            height: 115vh;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+        }
+        a {
+            color: #00f;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent footer background */
+            color: white;
+            text-align: center;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Uploaded Files</h1>
+    <table>
+        <tr>
+            <th>File Name</th>
+            <th>Download</th>
+        </tr>
+        {% for file in files %}
+        <tr>
+            <td>{{ file }}</td>
+            <td><a href="{{ url_for('download_file', filename=file) }}">Download</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <br>
+    <a href="/index">Back to Upload</a>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2024 <a href="/about" style="color: #00f;">Alen Infra Tech Solutions </a>. All rights reserved.</p>
+        <p>Contact us on 
+            
+            <a href="mailto:alenshyju27@gmail.com" style="color: #00f;">Email</a>
+        </p>
+    </footer>
+    
+</body>
+</html>
