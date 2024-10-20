@@ -141,8 +141,10 @@ def upload_file():
             print(session['custom_key'])
 
         flash("File uploaded and encrypted successfully!", "success")
-        return redirect(url_for('home'))
+        return redirect(url_for('index'))
     return redirect(url_for('login'))
+
+
 
 @app.route('/download/<filename>', methods=['GET', 'POST'])
 def download_file(filename):
@@ -187,6 +189,51 @@ def list_files():
     return redirect(url_for('login'))
 
 
+
+
+@app.route('/delete', methods=['POST'])
+def delete_file():
+    if 'user' in session:
+        filename = request.form['filename']
+        deletion_key = request.form['deletion_key']
+
+        # Retrieve the stored key for this file
+        stored_key = session.get('custom_key', '')
+
+        # Ensure the key is in the correct format
+        if deletion_key:
+            deletion_key = deletion_key.ljust(32)[:32].encode()
+            deletion_key = base64.urlsafe_b64encode(deletion_key)
+
+        if deletion_key.decode() == stored_key:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], session['user'], filename)
+            if os.path.exists(filepath):
+                os.remove(filepath)
+                flash("File deleted successfully!", "success")
+            else:
+                flash("File not found.", "danger")
+        else:
+            flash("Incorrect key. File not deleted.", "danger")
+
+        return redirect(url_for('uploaded_files'))
+    return redirect(url_for('login'))
+
+
+
+
+@app.route('/view/<filename>')
+def view_file(filename):
+    if 'user' in session:
+        # Get the file path
+        filepath = os.path.join(app.config['UPLOAD_FOLDER'], session['user'], filename)
+        if os.path.exists(filepath):
+            with open(filepath, 'rb') as f:
+                content = f.read()
+            return content
+        else:
+            flash("File not found.", "danger")
+            return redirect(url_for('uploaded_files'))
+    return redirect(url_for('login'))
 
 
 

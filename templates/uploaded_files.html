@@ -8,6 +8,15 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/uploaded.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert-container">
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
     <h1>Uploaded Files</h1>
     <table>
         <tr>
@@ -18,52 +27,82 @@
         {% for file in files %}
         <tr>
             <td>{{ file }}</td>
-            <td><button id="donwload" onclick="openModal('{{ file }}')">Download</button></td>
-            <td><button class="btn btn-danger">Delete</button> | <button class=" btn btn-primary">Open</button> | <button class=" btn btn-info">Share</button></td>
+            <td><button id="download" onclick="openDownloadModal('{{ file }}')" class="btn btn-success">📥 Download</button></td>
+            <td>
+                <button class="btn btn-danger" onclick="openDeleteModal('{{ file }}')">🗑️ Delete</button>┃
+                <button class="btn btn-primary" onclick="openFile('{{ file }}')">📂 Open</button> ┃ 
+                <button class="btn btn-info">📤 Share</button>
+            </td>
         </tr>
         {% endfor %}
     </table>
     <br>
     &nbsp;&nbsp;<a href="/index" class="btn btn-primary" style="text-decoration: none;">Back to Upload</a>
 
-    <!-- Modal for key input -->
-    <div id="myModal" class="modal">
+    <!-- Modal for decryption key input -->
+    <div id="downloadModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            <h3 style="color: black;">Enter Decryption Key for <span id="file-name"></span></h3>
+            <span class="close" onclick="closeDownloadModal()">&times;</span>
+            <h3 style="color: black;">Enter Decryption Key for <span id="download-file-name"></span></h3>
             <form id="decryption-form" action="" method="POST">
                 <input type="text" name="custom_key" required placeholder="Enter your key" style="margin-top: 10px;">
-                <input type="hidden" name="filename" id="hidden-filename"><br>
+                <input type="hidden" name="filename" id="hidden-download-filename"><br>
                 <button type="submit" style="margin-top: 10px;">Decrypt and Download</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for deletion key input -->
+    <div id="deleteModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeDeleteModal()">&times;</span>
+            <h3 style="color: black;">Enter Deletion Key for <span id="delete-file-name"></span></h3>
+            <form id="deletion-form" action="/delete" method="POST">
+                <input type="text" name="deletion_key" required placeholder="Enter your key" style="margin-top: 10px;">
+                <input type="hidden" name="filename" id="hidden-delete-filename"><br>
+                <button type="submit" style="margin-top: 10px;">Confirm</button>
             </form>
         </div>
     </div>
 
     <!-- Footer Section -->
     <footer>
-        <p>&copy; 2024 <a href="/about" style="color: #00f;">Alen Infra Tech Solutions </a>. All rights reserved.</p>
+        <p>&copy; 2024 <a href="/about" style="color: #00f;">Alen Infra Tech Solutions</a>. All rights reserved.</p>
         <p>Contact us on 
             <a href="mailto:alenshyju27@gmail.com" style="color: #00f;">Email</a>
         </p>
     </footer>
 
     <script>
-        function openModal(fileName) {
-            document.getElementById("file-name").innerText = fileName;
-            document.getElementById("hidden-filename").value = fileName;
-            document.getElementById("myModal").style.display = "block";
-            document.getElementById("decryption-form").action = `/download/${fileName}`; // Set form action
+        function openDownloadModal(fileName) {
+            document.getElementById("download-file-name").innerText = fileName;
+            document.getElementById("hidden-download-filename").value = fileName;
+            document.getElementById("downloadModal").style.display = "block";
+            document.getElementById("decryption-form").action = `/download/${fileName}`;
         }
-
-        function closeModal() {
-            document.getElementById("myModal").style.display = "none";
+        function closeDownloadModal() {
+            document.getElementById("downloadModal").style.display = "none";
         }
-
+        function openDeleteModal(fileName) {
+            document.getElementById("delete-file-name").innerText = fileName;
+            document.getElementById("hidden-delete-filename").value = fileName;
+            document.getElementById("deleteModal").style.display = "block";
+        }
+        function closeDeleteModal() {
+            document.getElementById("deleteModal").style.display = "none";
+        }
+        function openFile(fileName) {
+            window.open(`/view/${fileName}`, '_blank');
+        }
         // Close the modal when the user clicks anywhere outside of the modal
         window.onclick = function(event) {
-            const modal = document.getElementById("myModal");
-            if (event.target === modal) {
-                modal.style.display = "none";
+            const downloadModal = document.getElementById("downloadModal");
+            const deleteModal = document.getElementById("deleteModal");
+            if (event.target === downloadModal) {
+                downloadModal.style.display = "none";
+            }
+            if (event.target === deleteModal) {
+                deleteModal.style.display = "none";
             }
         }
     </script>
