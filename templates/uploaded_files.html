@@ -13,11 +13,13 @@
         <tr>
             <th>File Name</th>
             <th>Download</th>
+            <th>Operations</th>
         </tr>
         {% for file in files %}
         <tr>
             <td>{{ file }}</td>
             <td><button id="donwload" onclick="openModal('{{ file }}')">Download</button></td>
+            <td><button class="btn btn-danger">Delete</button> | <button class=" btn btn-primary">Open</button> | <button class=" btn btn-info">Share</button></td>
         </tr>
         {% endfor %}
     </table>
