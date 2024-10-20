@@ -31,8 +31,8 @@ bucket = storage_client.bucket(bucket_name)
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = '12331.com'  # Replace with your email
-app.config['MAIL_PASSWORD'] = '4412'  # Replace with your email password
+app.config['MAIL_USERNAME'] = 'digpalsingh9240@gmail.com'  # Replace with your email
+app.config['MAIL_PASSWORD'] = 'cegilrmtnfvrmiig'  # Replace with your email password
 mail = Mail(app)
 
 # Hardcoded credentials
