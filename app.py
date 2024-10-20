@@ -178,7 +178,7 @@ def download_file(filename):
 
 #download uploaded files
 @app.route('/uploaded_files')
-def list_files():
+def uploaded_files():
     if 'user' in session:
         try:
             files = os.listdir(f"{app.config['UPLOAD_FOLDER']}/{session['user']}")
@@ -221,19 +221,36 @@ def delete_file():
 
 
 
-@app.route('/view/<filename>')
+@app.route('/view/<filename>', methods=['POST'])
 def view_file(filename):
     if 'user' in session:
-        # Get the file path
-        filepath = os.path.join(app.config['UPLOAD_FOLDER'], session['user'], filename)
-        if os.path.exists(filepath):
-            with open(filepath, 'rb') as f:
-                content = f.read()
-            return content
+        custom_key = request.form['custom_key']
+        if custom_key:
+            custom_key = custom_key.ljust(32)[:32].encode()
+            custom_key = base64.urlsafe_b64encode(custom_key)
+
+        # Retrieve the stored key for this file
+        stored_key = session.get('custom_key', '')
+
+        if custom_key.decode() == stored_key:
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], session['user'], filename)
+            if os.path.exists(filepath):
+                with open(filepath, 'rb') as f:
+                    encrypted_data = f.read()
+                try:
+                    decrypted_data = decrypt_file(encrypted_data, custom_key)
+                    return decrypted_data
+                except Exception as e:
+                    flash("Error during decryption.", "danger")
+                    return redirect(url_for('uploaded_files'))
+            else:
+                flash("File not found.", "danger")
+                return redirect(url_for('uploaded_files'))
         else:
-            flash("File not found.", "danger")
+            flash("Incorrect key. File not opened.", "danger")
             return redirect(url_for('uploaded_files'))
     return redirect(url_for('login'))
+
 
 
 

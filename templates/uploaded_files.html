@@ -8,15 +8,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/uploaded.css') }}">
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <div class="alert-container">
-            {% for category, message in messages %}
-                <div class="alert alert-{{ category }}">{{ message }}</div>
-            {% endfor %}
-        </div>
-    {% endif %}
-    {% endwith %}
     <h1>Uploaded Files</h1>
     <table>
         <tr>
@@ -27,10 +18,10 @@
         {% for file in files %}
         <tr>
             <td>{{ file }}</td>
-            <td><button id="download" onclick="openDownloadModal('{{ file }}')" class="btn btn-success">📥 Download</button></td>
+            <td><button id="download" onclick="openDownloadModal('{{ file }}')">📥 Download</button></td>
             <td>
-                <button class="btn btn-danger" onclick="openDeleteModal('{{ file }}')">🗑️ Delete</button>┃
-                <button class="btn btn-primary" onclick="openFile('{{ file }}')">📂 Open</button> ┃ 
+                <button class="btn btn-danger" onclick="openDeleteModal('{{ file }}')">🗑️ Delete</button> | 
+                <button class="btn btn-primary" onclick="openOpenModal('{{ file }}')">📂 Open</button> | 
                 <button class="btn btn-info">📤 Share</button>
             </td>
         </tr>
@@ -39,15 +30,28 @@
     <br>
     &nbsp;&nbsp;<a href="/index" class="btn btn-primary" style="text-decoration: none;">Back to Upload</a>
 
-    <!-- Modal for decryption key input -->
+    <!-- Modal for decryption key input (Download) -->
     <div id="downloadModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="closeDownloadModal()">&times;</span>
             <h3 style="color: black;">Enter Decryption Key for <span id="download-file-name"></span></h3>
             <form id="decryption-form" action="" method="POST">
-                <input type="text" name="custom_key" required placeholder="Enter your key" style="margin-top: 10px;">
+                <input type="text" name="custom_key" placeholder="Enter your key" style="margin-top: 10px;">
                 <input type="hidden" name="filename" id="hidden-download-filename"><br>
                 <button type="submit" style="margin-top: 10px;">Decrypt and Download</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for decryption key input (Open) -->
+    <div id="openModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOpenModal()">&times;</span>
+            <h3 style="color: black;">Enter Decryption Key for <span id="open-file-name"></span></h3>
+            <form id="open-form" action="" method="POST">
+                <input type="text" name="custom_key" placeholder="Enter your key" style="margin-top: 10px;">
+                <input type="hidden" name="filename" id="hidden-open-filename"><br>
+                <button type="submit" style="margin-top: 10px;">Decrypt and Open</button>
             </form>
         </div>
     </div>
@@ -91,18 +95,28 @@
         function closeDeleteModal() {
             document.getElementById("deleteModal").style.display = "none";
         }
-        function openFile(fileName) {
-            window.open(`/view/${fileName}`, '_blank');
+        function openOpenModal(fileName) {
+            document.getElementById("open-file-name").innerText = fileName;
+            document.getElementById("hidden-open-filename").value = fileName;
+            document.getElementById("openModal").style.display = "block";
+            document.getElementById("open-form").action = `/view/${fileName}`;
+        }
+        function closeOpenModal() {
+            document.getElementById("openModal").style.display = "none";
         }
         // Close the modal when the user clicks anywhere outside of the modal
         window.onclick = function(event) {
             const downloadModal = document.getElementById("downloadModal");
             const deleteModal = document.getElementById("deleteModal");
+            const openModal = document.getElementById("openModal");
             if (event.target === downloadModal) {
                 downloadModal.style.display = "none";
             }
             if (event.target === deleteModal) {
                 deleteModal.style.display = "none";
+            }
+            if (event.target === openModal) {
+                openModal.style.display = "none";
             }
         }
     </script>

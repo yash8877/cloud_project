@@ -46,7 +46,7 @@
             <h2>Upload a File</h2>
             <form id="uploadForm" action="/upload" method="post" enctype="multipart/form-data">
                 <input type="file" name="file" required>
-                <button type="button" onclick="openModal()">Select Encryption Option</button>
+                <button type="button" onclick="openModal()" required>Select Encryption Option</button>
                 <input type="submit" value="Upload">
             </form>
             <br>
@@ -60,10 +60,10 @@
             <span class="close" onclick="closeModal()">&times;</span>
             <h2>Encryption Options</h2>
             <form id="encryptionForm">
-                <label>
+                <!-- <label>
                     <input type="radio" name="encrypt_option" value="default" checked onclick="toggleKeyInput(false)">
                     Default Encryption
-                </label><br>
+                </label><br> -->
                 <label>
                     <input type="radio" name="encrypt_option" value="custom" onclick="toggleKeyInput(true)">
                     Custom Encryption (Enter Key)
