@@ -1,0 +1,111 @@
+h1 {
+    text-align: center;
+}
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-image: url('../images/img5.jpg'); /* Background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    color: white; /* Ensures text is readable on dark backgrounds */
+    height: 115vh;
+}
+table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th {
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+}
+a {
+    color: #00f;
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent footer background */
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+/* Styles for the modal */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+.modal-content {
+    align-items: center;
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 35%; /* Could be more or less, depending on screen size */
+}
+.close {
+    color: #aaa;
+    align-self: self-end;
+    font-size: 28px;
+    font-weight: bold;
+}
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+button[type="submit"] {
+background-color: #28a745; 
+color: white; 
+padding: 12px 20px; 
+border: none; 
+border-radius: 8px; 
+cursor: pointer; 
+font-size: 16px; 
+transition: background-color 0.3s ease, transform 0.3s ease; 
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); 
+}
+
+/* Change background color on hover and add scaling effect */
+button[type="submit"]:hover {
+background-color: #218838; /* Darker green on hover */
+transform: scale(1.05); /* Slight scaling effect */
+}
+
+/* Add click effect */
+button[type="submit"]:active {
+transform: scale(0.98); /* Click down effect */
+}
+
+#donwload{
+background-color: aqua;
+color: white; 
+padding: 12px 20px; 
+border: none; 
+border-radius: 8px; 
+cursor: pointer; 
+font-size: 10px; 
+box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+
+}
