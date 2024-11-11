@@ -18,7 +18,7 @@ app.secret_key = 'your_secret_key'  # Required for session management
 # Google Cloud Configuration
 # Modidify the path to the location of your .json service_account_file
 
-storage_client = storage.Client.from_service_account_json("C:/Users/yash5/Desktop/cloud_project/file-storage-app-438915-c95404402e86.json")
+storage_client = storage.Client.from_service_account_json("C:/Users/yash5/Desktop/cloud_project/file/file-storage-app-438915-c95404402e86.json")
 bucket_name = 'storage_one_1'
 bucket = storage_client.bucket(bucket_name)
 
