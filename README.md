@@ -1,2 +1,2 @@
 ## HTML Documentation
-[View Project Documentation](README.html)
+[View Project Documentation](README.HTML)
