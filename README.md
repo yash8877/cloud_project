@@ -23,7 +23,7 @@
     <h2>Setup and Installation</h2>
     <ol>
         <li>Clone the repository:</li>
-        <pre><code>git clone &lt;repository_url&gt;</code></pre>
+        <pre><code>git clone https://github.com/yash8877/cloud_project.git</code></pre>
         <li>Navigate to the project directory:</li>
         <pre><code>cd flask-cloud-storage-app</code></pre>
         <li>Create and activate a virtual environment:</li>
