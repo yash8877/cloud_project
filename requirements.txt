@@ -1,0 +1,5 @@
+flask==2.2.5
+cryptography==39.0.1
+flask-mail==0.9.1
+werkzeug==2.2.3
+google-cloud-storage==2.10.0
